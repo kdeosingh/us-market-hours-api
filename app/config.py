@@ -20,9 +20,17 @@ class Settings(BaseSettings):
     @classmethod
     def get_cors_origins(cls) -> List[str]:
         """Get CORS origins from env or defaults"""
+        import json
         origins_str = os.getenv("CORS_ORIGINS", "")
         if origins_str:
-            return [origin.strip() for origin in origins_str.split(",")]
+            # Try to parse as JSON array first
+            if origins_str.startswith("["):
+                try:
+                    return json.loads(origins_str)
+                except json.JSONDecodeError:
+                    pass
+            # Fall back to comma-separated
+            return [origin.strip() for origin in origins_str.split(",") if origin.strip()]
         return cls.CORS_ORIGINS
     
     # Data storage
