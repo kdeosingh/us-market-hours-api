@@ -88,11 +88,21 @@ async def health_check():
 if __name__ == "__main__":
     import uvicorn
     import os
+    
+    # Get port from environment (Railway sets this)
     port = int(os.environ.get("PORT", 8000))
+    
+    # Get host and workers from environment
+    host = os.environ.get("HOST", "0.0.0.0")
+    workers = int(os.environ.get("WEB_CONCURRENCY", 1))
+    
+    logger.info(f"Starting server on {host}:{port} with {workers} worker(s)")
+    
     uvicorn.run(
         "main:app",
-        host="0.0.0.0",
+        host=host,
         port=port,
-        reload=settings.DEBUG
+        workers=workers,
+        log_level="info"
     )
 
