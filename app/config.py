@@ -17,9 +17,17 @@ class Settings(BaseSettings):
     # CORS
     CORS_ORIGINS: List[str] = ["http://localhost:3000", "http://127.0.0.1:3000"]
     
+    @classmethod
+    def get_cors_origins(cls) -> List[str]:
+        """Get CORS origins from env or defaults"""
+        origins_str = os.getenv("CORS_ORIGINS", "")
+        if origins_str:
+            return [origin.strip() for origin in origins_str.split(",")]
+        return cls.CORS_ORIGINS
+    
     # Data storage
-    DATA_DIR: str = "data"
-    DB_PATH: str = "data/market_hours.db"
+    DATA_DIR: str = os.getenv("DATA_DIR", "data")
+    DB_PATH: str = os.getenv("DB_PATH", "data/market_hours.db")
     
     # Scraper settings
     SCRAPER_ENABLED: bool = True
