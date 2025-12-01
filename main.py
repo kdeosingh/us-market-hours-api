@@ -8,7 +8,7 @@ from fastapi.responses import JSONResponse
 from contextlib import asynccontextmanager
 import logging
 
-from app.routers import market_hours, docs
+from app.routers import market_hours, docs, news
 from app.scheduler import start_scheduler, shutdown_scheduler
 from app.config import settings
 
@@ -66,6 +66,12 @@ app.include_router(
     docs.router,
     prefix="/documentation",
     tags=["documentation"]
+)
+
+app.include_router(
+    news.router,
+    prefix="/news",
+    tags=["news"]
 )
 
 

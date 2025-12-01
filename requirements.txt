@@ -10,4 +10,5 @@ apscheduler==3.10.4
 pytz==2024.2
 python-dotenv==1.0.1
 slowapi==0.1.9
+feedparser==6.0.11
 

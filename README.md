@@ -64,3 +64,4 @@ docker run -p 8000:8000 -v $(pwd)/data:/app/data market-hours-backend
 ```
 
 
+

@@ -15,23 +15,24 @@ class Settings(BaseSettings):
     ENABLE_API_AUTH: bool = False
     
     # CORS
-    CORS_ORIGINS: List[str] = ["http://localhost:3000", "http://127.0.0.1:3000"]
+    CORS_ORIGINS: str = "http://localhost:3000,http://127.0.0.1:3000"
     
-    @classmethod
-    def get_cors_origins(cls) -> List[str]:
-        """Get CORS origins from env or defaults"""
+    def get_cors_origins(self) -> List[str]:
+        """Get CORS origins - parses comma-separated string or JSON array"""
         import json
-        origins_str = os.getenv("CORS_ORIGINS", "")
-        if origins_str:
-            # Try to parse as JSON array first
-            if origins_str.startswith("["):
-                try:
-                    return json.loads(origins_str)
-                except json.JSONDecodeError:
-                    pass
-            # Fall back to comma-separated
-            return [origin.strip() for origin in origins_str.split(",") if origin.strip()]
-        return cls.CORS_ORIGINS
+        origins_str = self.CORS_ORIGINS
+        if not origins_str:
+            return ["http://localhost:3000", "http://127.0.0.1:3000"]
+        
+        # Try to parse as JSON array first
+        if origins_str.startswith("["):
+            try:
+                return json.loads(origins_str)
+            except json.JSONDecodeError:
+                pass
+        
+        # Fall back to comma-separated
+        return [origin.strip() for origin in origins_str.split(",") if origin.strip()]
     
     # Data storage
     DATA_DIR: str = os.getenv("DATA_DIR", "data")

@@ -191,3 +191,4 @@ async def check_market_open(
         raise HTTPException(status_code=500, detail="Internal server error")
 
 
+
