@@ -107,3 +107,4 @@ async def get_news():
         "last_updated": datetime.now().isoformat() + "Z"
     }
 
+

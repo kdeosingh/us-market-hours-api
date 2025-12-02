@@ -66,3 +66,4 @@ python -c "import secrets; print(secrets.token_urlsafe(32))"
 Railway will automatically restart your app with new variables.
 
 
+
